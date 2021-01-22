@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: cargo
+  schedule:
+    interval: daily 
+  open-pull-requests-limit: 99
+- package-ecosystem: cargo
+  directory: "/fuse-abi"
+  schedule:
+    interval: daily 
+  open-pull-requests-limit: 99
+- package-ecosystem: cargo
+  directory: "/fuse-sys"
+  schedule:
+    interval: daily 
+  open-pull-requests-limit: 99
