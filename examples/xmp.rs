@@ -110,13 +110,15 @@ fn meta2attr(m: &std::fs::Metadata, ino: u64) -> FileAttr {
         atime: m.accessed().unwrap_or(UNIX_EPOCH),
         mtime: m.modified().unwrap_or(UNIX_EPOCH),
         ctime: UNIX_EPOCH + Duration::from_secs(m.ctime().try_into().unwrap_or(0)),
+        #[cfg(target_os = "macos")]
         crtime: m.created().unwrap_or(UNIX_EPOCH),
-        kind: ft2ft(m.file_type()),
+        ftype: ft2ft(m.file_type()),
         perm: m.permissions().mode() as u16,
         nlink: m.nlink() as u32,
         uid: m.uid(),
         gid: m.gid(),
         rdev: m.rdev() as u32,
+        #[cfg(target_os = "macos")]
         flags: 0,
     }
 }
@@ -772,13 +774,15 @@ impl Filesystem for XmpFS {
                     atime: UNIX_EPOCH,
                     mtime: UNIX_EPOCH,
                     ctime: UNIX_EPOCH,
+                    #[cfg(target_os = "macos")]
                     crtime: UNIX_EPOCH,
-                    kind: FileType::RegularFile,
+                    ftype: FileType::RegularFile,
                     perm: 0o644,
                     nlink: 1,
                     uid: 0,
                     gid: 0,
                     rdev: 0,
+                    #[cfg(target_os = "macos")]
                     flags: 0,
                 };
 
